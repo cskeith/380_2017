@@ -2,6 +2,7 @@ package edu.ouhk.comps380f.controller;
 
 import edu.ouhk.comps380f.dao.TicketUserRepository;
 import edu.ouhk.comps380f.model.TicketUser;
+import edu.ouhk.comps380f.validator.UserValidator;
 import java.io.IOException;
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -33,6 +34,9 @@ public class TicketUserController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserValidator userValidator;
 
     @RequestMapping(value = {"", "list"}, method = RequestMethod.GET)
     public String list(ModelMap model) {
@@ -95,6 +99,8 @@ public class TicketUserController {
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
     public ModelAndView create(@ModelAttribute("ticketUser") @Valid Form form, BindingResult result) throws IOException {
+        userValidator.validate(form, result);
+
         if (result.hasErrors()) {
             return new ModelAndView("addUser", "ticketUser", form);
         }
