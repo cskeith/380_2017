@@ -84,7 +84,7 @@ public class TicketUserController {
     }
 
     @RequestMapping(value = "delete/{username}", method = RequestMethod.GET)
-    public View deleteTicket(@PathVariable("username") String username) {
+    public View delete(@PathVariable("username") String username) {
         ticketUserRepo.delete(ticketUserRepo.findOne(username));
         logger.info("User " + username + " deleted.");
         return new RedirectView("/user/list", true);
